@@ -19,11 +19,16 @@ class SiswaController extends Controller
 
         // Hitung total siswa
         $totalSiswa = Siswa::count();
-        
+
         $namakota = Kota::withCount('siswa')->get();
 
+        $tahunKelahiran = Siswa::selectRaw('YEAR(tanggal_lahir) as tahun, COUNT(*) as jumlah')
+            ->groupBy('tahun')
+            ->orderBy('tahun', 'asc')
+            ->get();
+
         // Kirim data ke view
-        return view('dashboard', compact('jumlahSiswaLakiLaki', 'jumlahSiswaPerempuan', 'totalSiswa', 'namakota'));
+        return view('dashboard', compact('jumlahSiswaLakiLaki', 'jumlahSiswaPerempuan', 'totalSiswa', 'namakota', 'tahunKelahiran'));
     }
 
 

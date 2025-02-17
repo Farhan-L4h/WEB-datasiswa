@@ -373,51 +373,53 @@
 
 
     <script>
-        var
-            barChart = document.getElementById("barChart").getContext("2d"),
-            pieChart = document.getElementById("pieChart").getContext("2d"),
-            doughnutChart = document
-            .getElementById("doughnutChart")
-            .getContext("2d");
+        // Ambil data dari controller
+        const tahunLabels = {!! json_encode($tahunKelahiran->pluck('tahun')->toArray() ?? []) !!};
+        const jumlahSiswaBar = {!! json_encode($tahunKelahiran->pluck('jumlah')->toArray() ?? []) !!};
 
+        // Debugging
+        console.log("Tahun Labels:", tahunLabels);
+        console.log("Jumlah Siswa:", jumlahSiswaBar);
 
-        // bar chart
-        var myBarChart = new Chart(barChart, {
-            type: "bar",
-            data: {
-                labels: [
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                    "Nov",
-                    "Dec",
-                ],
-                datasets: [{
-                    label: "Sales",
-                    backgroundColor: "rgb(23, 125, 255)",
-                    borderColor: "rgb(23, 125, 255)",
-                    data: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
-                }, ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                    }, ],
+        // Pastikan elemen canvas ada sebelum mengakses context
+        const barChartCanvas = document.getElementById("barChart");
+
+        if (barChartCanvas) {
+            const barChart = barChartCanvas.getContext("2d");
+
+            // Hapus chart lama jika ada
+            if (window.myBarChart instanceof Chart) {
+                window.myBarChart.destroy();
+            }
+
+            // Buat chart baru
+            window.myBarChart = new Chart(barChart, {
+                type: "bar",
+                data: {
+                    labels: tahunLabels.length ? tahunLabels : ["Data Kosong"],
+                    datasets: [{
+                        label: "Siswa",
+                        backgroundColor: "rgb(23, 125, 255)",
+                        borderColor: "rgb(23, 125, 255)",
+                        data: jumlahSiswaBar.length ? jumlahSiswaBar : [0],
+                    }],
                 },
-            },
-        });
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                        }],
+                    },
+                },
+            });
+        } else {
+            console.error("Element #barChart tidak ditemukan di halaman.");
+        }
+
 
         // pie chart
         // Ambil data dari controller

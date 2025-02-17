@@ -123,7 +123,6 @@
                             </a>
                         </li>
 
-
                     </ul>
                 </div>
             </div>
@@ -180,7 +179,7 @@
                             </li>
 
 
-                            <li class="nav-item topbar-user dropdown hidden-caret">
+                            <li class="d-flex nav-item topbar-user dropdown hidden-caret">
                                 <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                                     aria-expanded="false">
                                     <div class="avatar-sm">
@@ -191,6 +190,14 @@
                                         <span class="fw-bold">Admin</span>
                                     </span>
                                 </a>
+                                <span>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link text-danger">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </span>
                             </li>
 
                         </ul>
@@ -419,22 +426,22 @@
     </script> --}}
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             var successToast = document.getElementById("successToast");
             var errorToast = document.getElementById("errorToast");
-    
+
             if (successToast) {
                 var toast = new bootstrap.Toast(successToast);
                 toast.show();
             }
-    
+
             if (errorToast) {
                 var toast = new bootstrap.Toast(errorToast);
                 toast.show();
             }
         });
     </script>
-    
+
 
 </body>
 

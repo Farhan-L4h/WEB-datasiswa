@@ -39,6 +39,14 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
+
+
+
+
 Route::get('/dashboard', [SiswaController::class, 'dashboard'])->name('dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/siswa', [SiswaController::class, 'siswa'])->name('siswa.index');
 Route::get('/kota', [SiswaController::class, 'kota'])->name('kota.index');

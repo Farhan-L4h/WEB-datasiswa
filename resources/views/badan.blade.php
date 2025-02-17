@@ -43,6 +43,38 @@
 
     <div class="wrapper">
 
+        {{-- toast --}}
+
+        <!-- Toast Container -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            @if (session('success'))
+                <div class="toast align-items-center text-bg-success border-0 show" id="successToast" role="alert"
+                    aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="toast align-items-center text-bg-danger border-0 show" id="errorToast" role="alert"
+                    aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('error') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
+        </div>
+
+
         <!-- Sidebar -->
         <div class="sidebar" data-background-color="dark">
             <div class="sidebar-logo">
@@ -238,7 +270,7 @@
     <script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
 
     <!-- Bootstrap Notify -->
-    <script src="{{ asset('assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script> --}}
 
     <!-- jQuery Vector Maps -->
     <script src="{{ asset('assets/js/plugin/jsvectormap/jsvectormap.min.js') }}"></script>
@@ -385,6 +417,25 @@
             },
         });
     </script> --}}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var successToast = document.getElementById("successToast");
+            var errorToast = document.getElementById("errorToast");
+    
+            if (successToast) {
+                var toast = new bootstrap.Toast(successToast);
+                toast.show();
+            }
+    
+            if (errorToast) {
+                var toast = new bootstrap.Toast(errorToast);
+                toast.show();
+            }
+        });
+    </script>
+    
+
 </body>
 
 </html>
